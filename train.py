@@ -1,6 +1,20 @@
+import mlflow
+import mlflow.tensorflow
 import keras
-import numpy as np
 
+#  Variables pour les param tres
+EPOCHS = 5
+BATCH_SIZE = 128
+DROPOUT_RATE = 0.2
+
+# Lancement de la session de suivi MLflow
+with mlflow.start_run():
+ # Enregistrement des paramètres
+ mlflow.log_param("epochs", EPOCHS)
+ mlflow.log_param("batch_size", BATCH_SIZE)
+ mlflow.log_param("dropout_rate", DROPOUT_RATE)
+
+# Construction et entra nement du mod le (utiliser les variables finies)
 # Chargement du jeu de donnees MNIST
 (x_train, y_train), (x_test, y_test) = keras.datasets.mnist.load_data()
 
@@ -32,3 +46,9 @@ print(f"Précision sur les données de test : {test_acc:.4f}")
 # Sauvegarde du modèle
 model.save("mnist_model.h5")
 print("Modèle sauvegardée sous mnist_model.h5")
+
+# Enregistrement des m triques
+mlflow.log_metric("test_accuracy", test_acc)
+
+# Enregistrement du mod le complet
+mlflow.keras.log_model(model, "mnist-model")
