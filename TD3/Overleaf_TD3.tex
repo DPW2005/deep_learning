@@ -1,0 +1,77 @@
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{geometry}
+\usepackage{enumitem}
+\geometry{a4paper, margin=1in}
+
+\title{TP3: Convolutional Neural Networks and Computer Vision}
+\author{DONGMO Prince Williams \\ Supervisor: Dr. Louis Fippo Fitime}
+\date{October 2025}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+This report presents the work done for TP3 in the Deep Learning course at ENSPY. The main objectives are to understand and implement Convolutional Neural Networks (CNNs), residual networks (ResNet), and neural style transfer, using the CIFAR-10 dataset and Keras.
+
+\section{Part 1: Theoretical Concepts}
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Convolution:} The filter (kernel) extracts local patterns from the image. The stride controls the movement of the filter. The main goal of a convolutional layer is to extract relevant spatial features while reducing dimensionality.
+    \item \textbf{Pooling:} Max Pooling keeps the maximum value in a region (robust to noise). Average Pooling computes the mean (smooths features). Both reduce data size and help extract invariant features.
+    \item \textbf{Flattening:} Convolutional layers produce feature maps, which are flattened into vectors for fully connected (Dense) layers for classification.
+    \item \textbf{ResNet:} Residual connections (skip connections) allow gradients to flow more easily in deep networks, solving the vanishing gradient problem.
+    \item \textbf{Style Transfer:} Combines the content of one image and the style of another using a pre-trained CNN (VGG16).
+\end{itemize}
+
+\section{Part 2: Classic CNN Implementation}
+\subsection{CIFAR-10 Data Preparation}
+\begin{itemize}[leftmargin=*]
+    \item Dataset: 10 classes of 32x32 color images.
+    \item Data normalized to [0, 1], labels one-hot encoded.
+\end{itemize}
+
+\subsection{Model Architecture}
+\begin{itemize}[leftmargin=*]
+    \item 2 convolutional layers (32 and 64 filters, 3x3, ReLU)
+    \item 2 max pooling layers (2x2)
+    \item Flatten, Dense (512, ReLU), Output (Softmax)
+\end{itemize}
+
+\subsection{Results}
+Model trained for 10 epochs, accuracy evaluated on test set.
+
+\section{Part 3: ResNet Implementation}
+\subsection{Residual Block}
+\begin{itemize}[leftmargin=*]
+    \item Main path: 2 Conv2D layers
+    \item Skip connection: input added to output
+\end{itemize}
+\subsection{Training}
+ResNet trained on CIFAR-10 for 10 epochs. Test accuracy reported.
+
+\section{Part 4: Neural Style Transfer}
+\subsection{Principle}
+\begin{itemize}[leftmargin=*]
+    \item Content image: provides structure
+    \item Style image: provides artistic style
+    \item VGG16 extracts features; optimization combines both
+\end{itemize}
+\subsection{Result}
+Generated image combines content and style. Output saved as \texttt{output\_style\_transfer.jpg}.
+
+\section{Conclusion}
+This TP provided hands-on experience with CNNs, ResNet architectures, and neural style transfer. The practical implementation and theoretical analysis deepen understanding of modern computer vision techniques.
+
+\section*{Annexes}
+
+For full access to the project code and the collaborative work:
+
+\begin{itemize}
+    \item \textbf{Overleaf Project:} \href{https://www.overleaf.com/project/68d314812f29a01e37f8c3ab}
+    \item \textbf{GitHub Repository:} \href{https://github.com/DPW2005/deep_learning}
+\end{itemize}
+
+\end{document}

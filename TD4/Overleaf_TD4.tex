@@ -1,0 +1,127 @@
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{geometry}
+\usepackage{enumitem}
+\usepackage{listings}
+\geometry{a4paper, margin=1in}
+
+\title{TP4: Advanced Vision, Segmentation and 3D Data}
+\author{DONGMO Prince Williams \\\ Supervisor: Dr. Louis Fippo Fitime}
+\date{October 19, 2025}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+This fourth Practical Work (TP4) addresses advanced computer vision topics: semantic segmentation with
+the U-Net architecture and a first introduction to 3D volumetric data processing using Conv3D layers.
+The exercises emphasize implementation, metric design (Dice, IoU), and engineering practices such as
+experiment tracking with MLflow.
+\end{abstract}
+
+\section{Introduction}
+TP4 develops practical skills for high-precision segmentation tasks and volumetric data handling.
+Students implement a simplified U-Net, custom segmentation metrics, and a toy Conv3D experiment while
+applying MLOps best practices for experiment tracking.
+
+\section{Learning Objectives}
+\begin{itemize}[leftmargin=*]
+    \item Implement a U-Net for binary semantic segmentation and understand skip connections.
+    \item Implement and compare segmentation-specific metrics (Dice coefficient and IoU).
+    \item Integrate MLflow experiment tracking (naming convention, custom metrics, artifacts).
+    \item Understand Conv3D operations and the engineering trade-offs for volumetric data.
+\end{itemize}
+
+\section{Part 1: Segmentation and MLOps Best Practices}
+\subsection{Semantic Segmentation and U-Net}
+Semantic segmentation outputs a per-pixel label map. For binary segmentation the model emits an
+$(H, W, 1)$ tensor of probabilities (sigmoid). The decoder path of U-Net upsamples deep feature maps
+and recombines them with encoder features through concatenation-based skip connections. This
+mechanism restores fine spatial details lost during downsampling and differs from ResNet-style
+additive residual connections which primarily facilitate gradient flow.
+
+\subsection{Loss functions and class imbalance}
+Medical segmentation often has extreme class imbalance (tiny foreground). Pixel-wise BCE is dominated
+by background pixels. Dice loss (1 - Dice) optimizes region overlap directly and is therefore
+better suited; a common practical choice is to combine BCE and Dice to balance pixel-wise and region-wise
+objectives.
+
+\subsection{Experiment tracking (MLflow)}
+We adopt a strict run naming convention to keep experiments identifiable. Suggested format:
+\texttt{Model-Optimizer-Loss-YYYYMMDD-runN} (example: \texttt{UNet-Adam-BCE+Dice-20251019-run1}).
+Custom metrics such as Dice and IoU are implemented as Keras functions and logged both via Keras
+history and manually to MLflow as needed. Model architecture and artifacts (weights) are saved
+as MLflow artifacts.
+
+\section{Part 2: Semantic Segmentation on Medical Data}
+\subsection{U-Net Implementation}
+The provided implementation follows the classical U-Net pattern:
+\begin{itemize}[leftmargin=*]
+    \item Core conv block: Conv2D -> BatchNorm -> ReLU -> Conv2D -> BatchNorm -> ReLU.
+    \item Encoder: three downsampling stages with MaxPool, doubling filters each stage.
+    \item Bottleneck: highest-capacity conv block.
+    \item Decoder: Conv2DTranspose upsampling, concatenation with encoder features, conv blocks.
+    \item Output: 1x1 Conv layer with sigmoid activation for binary masks.
+\end{itemize}
+
+A code listing for the main script is available in the repository:\\
+\texttt{src/unet_segmentation.py}
+
+\subsection{Metrics: Dice and IoU}
+The Dice coefficient used is:
+\[
+\mathrm{Dice} = \frac{2|A\cap B|}{|A|+|B|}
+\]
+IoU (Intersection over Union) is calculated as
+\[
+\mathrm{IoU} = \frac{|A\cap B|}{|A\cup B|}.
+\]
+Both metrics have been implemented as Keras-compatible functions and logged to MLflow.
+
+\subsection{Toy training and example results}
+A fast verification run was executed on synthetic data to validate the pipeline and MLflow logging.
+Because this uses random data (no real medical images), the absolute metric values are not indicative of
+real performance. Example outputs from a 1-epoch dummy run (for pipeline validation):
+\begin{itemize}[leftmargin=*]
+    \item Dice (example): approximately 0.09
+    \item IoU  (example): approximately 0.045
+\end{itemize}
+These values reflect the randomness and sparsity of the synthetic masks and only demonstrate
+that the metric functions and logging work end-to-end.
+
+\section{Part 3: 3D Convolutions and Volumetric Data}
+\subsection{Conv3D concepts}
+Conv3D kernels have shape $(k_d,k_h,k_w)$ and slide over depth, height and width, capturing
+inter-slice context. This is important for CT/MRI where anatomical structures span multiple slices.
+
+\subsection{Engineering trade-offs}
+Conv3D layers are memory- and compute-heavy. To design efficient 3D models consider:
+\begin{itemize}[leftmargin=*]
+    \item Reducing input depth or using patch/sliding-window inference.
+    \item Smaller kernels (3x3x3) and fewer filters.
+    \item Hybrid 2D/3D strategies (2D per-slice encoder + shallow 3D fusion).
+\end{itemize}
+
+\subsection{Demonstration: small Conv3D block}
+An example Conv3D block and a simulated MLflow experiment are provided in
+\texttt{src/conv3d_experiment.py}. The script performs a forward pass on random
+volumetric inputs and logs a simulated metric to MLflow to validate tracking.
+
+\section{Conclusion}
+TP4 provided hands-on experience with semantic segmentation (U-Net), implementation of segmentation
+metrics (Dice, IoU), and an introduction to Conv3D for volumetric data. The repository includes
+minimal working examples, MLflow logging, and a written response to theoretical questions.
+
+\section*{Annexes}
+
+For full access to the project code and the collaborative work:
+
+\begin{itemize}
+    \item \textbf{Overleaf Project:} \href{https://www.overleaf.com/project/68d314812f29a01e37f8c3ab}
+    \item \textbf{GitHub Repository:} \href{https://github.com/DPW2005/deep_learning}
+\end{itemize}
+
+\end{document}
