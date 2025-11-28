@@ -10,18 +10,21 @@ Ce dossier combine les deux premiers travaux dirigés. Il se concentre sur :
 - **Déploiement** : Une application web Flask (`app.py`) pour servir le modèle.
 - **Conteneurisation** : Un `Dockerfile` pour packager l'application.
 - **Rapport** : Fichier LaTeX du rapport (`Overleaf_TD1&2.tex`).
+- **Rapport PDF** : Version compilée du rapport (`TD1&2.pdf`).
 
 ### [TD3](./TD3) - CNN Avancés & Transfert de Style
 Ce dossier explore des architectures plus complexes et des applications créatives :
 - **Classification** : Implémentation de CNNs et utilisation de ResNet (`cnn_classification.py`, `resnet_mini.py`).
 - **Transfert de Style** : Algorithme de transfert de style neuronal (`style_transfer.py`) utilisant des images de contenu et de style fournies.
 - **Rapport** : Fichier LaTeX du rapport (`Overleaf_TD3.tex`).
+- **Rapport PDF** : Version compilée du rapport (`TD3.pdf`).
 
 ### [TD4](./TD4) - Segmentation & 3D
 Ce dossier aborde des tâches de vision par ordinateur plus spécialisées :
 - **Segmentation d'image** : Implémentation de l'architecture U-Net (`unet_segmentation.py`).
 - **Convolutions 3D** : Expérimentations avec des convolutions 3D (`conv3d_experiment.py`), souvent utilisées pour l'analyse vidéo ou volumétrique.
 - **Rapport** : Fichier LaTeX du rapport (`Overleaf_TD4.tex`).
+- **Rapport PDF** : Version compilée du rapport (`TD4.pdf`).
 
 ## 🛠 Installation
 
