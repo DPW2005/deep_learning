@@ -19,12 +19,20 @@ Ce dossier explore des architectures plus complexes et des applications créativ
 - **Rapport** : Fichier LaTeX du rapport (`Overleaf_TD3.tex`).
 - **Rapport PDF** : Version compilée du rapport (`TD3.pdf`).
 
+
 ### [TD4](./TD4) - Segmentation & 3D
 Ce dossier aborde des tâches de vision par ordinateur plus spécialisées :
 - **Segmentation d'image** : Implémentation de l'architecture U-Net (`unet_segmentation.py`).
 - **Convolutions 3D** : Expérimentations avec des convolutions 3D (`conv3d_experiment.py`), souvent utilisées pour l'analyse vidéo ou volumétrique.
 - **Rapport** : Fichier LaTeX du rapport (`Overleaf_TD4.tex`).
 - **Rapport PDF** : Version compilée du rapport (`TD4.pdf`).
+
+### [TD5](./TD5) - Sequence Modeling & Attention
+Ce dossier traite des modèles de séquence et des mécanismes d'attention :
+- **Part 1** : Implémentation d'une couche d'attention personnalisée (`Part1/experiments/run_experiment.py`).
+- **Part 2** : Seq2Seq avec Cross-Attention et suivi d'expériences via MLflow (`Part2/experiments/train_mlflow.py`).
+- **Rapport** : Fichier LaTeX du rapport (`Overleaf_TD5.tex`).
+- **Rapport PDF** : Version compilée du rapport (`TD5.pdf`).
 
 ## 🛠 Installation
 
